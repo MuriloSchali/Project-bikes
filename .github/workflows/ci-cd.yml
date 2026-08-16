@@ -8,10 +8,7 @@ on:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-<<<<<<< HEAD
     environment: Databricks
-=======
->>>>>>> origin
 
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}

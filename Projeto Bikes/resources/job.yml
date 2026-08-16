@@ -1,0 +1,101 @@
+resources:
+  jobs:
+    bikes_job:
+      name: bikes - job
+      tasks:
+        - task_key: 01-brands
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/01.brands
+            source: WORKSPACE
+        - task_key: 02-categories
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/02.categories
+            source: WORKSPACE
+        - task_key: 03-customers
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/03.customers
+            source: WORKSPACE
+        - task_key: 04-orders_items
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/04.orders_items
+            source: WORKSPACE
+        - task_key: 05-orders
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/05.orders
+            source: WORKSPACE
+        - task_key: 06-products
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/06.products
+            source: WORKSPACE
+        - task_key: 07-staffs
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/07.staffs
+            source: WORKSPACE
+        - task_key: 08-stocks
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/08.stocks
+            source: WORKSPACE
+        - task_key: 09-stores
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/09.stores
+            source: WORKSPACE
+        - task_key: validate_bronze
+          depends_on:
+            - task_key: 02-categories
+            - task_key: 09-stores
+            - task_key: 05-orders
+            - task_key: 04-orders_items
+            - task_key: 06-products
+            - task_key: 01-brands
+            - task_key: 08-stocks
+            - task_key: 03-customers
+            - task_key: 07-staffs
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/01.bronze/00.validate_bronze
+            source: WORKSPACE
+        - task_key: 01-Silver_products
+          depends_on:
+            - task_key: validate_bronze
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/02.silver/00.Prod/01.Silver_products_prod
+            source: WORKSPACE
+        - task_key: 02-Silver_orders
+          depends_on:
+            - task_key: validate_bronze
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/02.silver/00.Prod/02.SIlver_orders_prod
+            source: WORKSPACE
+        - task_key: 03-Silver_customers
+          depends_on:
+            - task_key: validate_bronze
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/02.silver/00.Prod/03.Silver_customers_prod
+            source: WORKSPACE
+        - task_key: validade_silver
+          depends_on:
+            - task_key: 01-Silver_products
+            - task_key: 02-Silver_orders
+            - task_key: 03-Silver_customers
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/02.silver/00.Prod/00.Validate_silver_prod
+            source: WORKSPACE
+        - task_key: 01-gold_sales_NY
+          depends_on:
+            - task_key: validade_silver
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/03.gold/00.Prod_gold/01.
+              Gold_sales_ny_prod
+            source: WORKSPACE
+        - task_key: 02-gold_orders_pending
+          depends_on:
+            - task_key: validade_silver
+          notebook_task:
+            notebook_path: ${workspace.file_path}/Projeto Bikes/notebooks/03.gold/00.Prod_gold/02.Gold_orders_pending_prod
+            source: WORKSPACE
+      queue:
+        enabled: true
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "5"
+      performance_target: PERFORMANCE_OPTIMIZED

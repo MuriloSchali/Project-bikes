@@ -1,0 +1,16 @@
+bundle:
+  name: Project-bikes
+
+include:
+  - Projeto Bikes/resources/*.yml
+
+sync:
+  include:
+    - Projeto Bikes/notebooks/**
+
+targets:
+  workspace:
+    default: true
+    mode: development
+    workspace:
+      root_path: /Workspace/Users/muriloschali629@gmail.com/.bundle/${bundle.name}/${bundle.target}
